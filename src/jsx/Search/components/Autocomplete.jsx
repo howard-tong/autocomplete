@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { suggestionShape } from '../../../utils/types';
+import { suggestionShape } from '../utils/types';
 
 const propTypes = {
   feedbackMessage: PropTypes.string,

@@ -12,7 +12,7 @@ import {
 import {
   bookShape,
   suggestionShape,
-} from '../../utils/types';
+} from './utils/types';
 
 const propTypes = {
   books: PropTypes.arrayOf(bookShape).isRequired,
