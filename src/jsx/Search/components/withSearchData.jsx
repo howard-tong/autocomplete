@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-const dataShape = PropTypes.oneOfType([
-  PropTypes.string,
-  PropTypes.shape({
-    title: PropTypes.string,
-    author: PropTypes.string,
-  }),
-]);
+import {
+  searchDataShape,
+  suggestionShape,
+} from '../utils/types';
 
 const propTypes = {
-  data: PropTypes.arrayOf(dataShape).isRequired,
-  suggestions: PropTypes.arrayOf(dataShape),
+  data: PropTypes.arrayOf(searchDataShape).isRequired,
+  suggestions: PropTypes.arrayOf(suggestionShape),
   autoFocus: PropTypes.bool,
   formatData: PropTypes.func.isRequired,
   updateSuggestions: PropTypes.func.isRequired,

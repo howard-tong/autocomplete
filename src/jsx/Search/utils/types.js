@@ -9,3 +9,11 @@ export const bookShape = PropTypes.shape({
   title: PropTypes.string,
   author: PropTypes.string,
 });
+
+export const searchDataShape = PropTypes.oneOfType([
+  PropTypes.string,
+  PropTypes.shape({
+    title: PropTypes.string,
+    author: PropTypes.string,
+  }),
+]);
