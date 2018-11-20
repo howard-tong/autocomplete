@@ -3,7 +3,7 @@ import {
   UPDATE_BOOK_SUGGESTIONS,
 } from './search.actions';
 
-import { cities, books } from '../../../utils/data';
+import { cities, books } from '../utils/data';
 
 const INITIAL_STATE = {
   cities,
