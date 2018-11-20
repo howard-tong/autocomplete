@@ -64,16 +64,20 @@ const withSearchData = (WrappedComponent) => {
     };
 
     handleInputChange = (event) => {
-      const { searchData } = this.state;
       const { updateSuggestions } = this.props;
-      const searchTerm = event.target.value;
+      const { searchData } = this.state;
+      let { isFieldDirty } = this.state;
       let suggestions = [];
+      const searchTerm = event.target.value;
+
       if (searchTerm.length > 2) {
-        this.setState({ isFieldDirty: true });
+        isFieldDirty = true;
         suggestions = searchData.filter(data => this.matchSearchTerm(searchTerm, data.primaryText));
+      } else if (searchTerm === '') {
+        isFieldDirty = false;
       }
       updateSuggestions(suggestions);
-      this.setState({ searchTerm });
+      this.setState({ searchTerm, isFieldDirty });
     }
 
     matchSearchTerm = (searchTerm, primaryText) => {
