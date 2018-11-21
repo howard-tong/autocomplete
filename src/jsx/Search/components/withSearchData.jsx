@@ -61,6 +61,13 @@ const withSearchData = (WrappedComponent) => {
       return message;
     };
 
+    getSuggestions = (searchTerm, searchData) => (
+      searchData.filter((data) => {
+        const primaryTextLower = data.primaryText.toLowerCase();
+        return primaryTextLower.startsWith(searchTerm.toLowerCase());
+      })
+    )
+
     handleInputChange = (event) => {
       const { updateSuggestions } = this.props;
       const { searchData } = this.state;
@@ -70,7 +77,7 @@ const withSearchData = (WrappedComponent) => {
 
       if (searchTerm.length > 2) {
         isFieldDirty = true;
-        suggestions = searchData.filter(data => this.matchSearchTerm(searchTerm, data.primaryText));
+        suggestions = this.getSuggestions(searchTerm, searchData);
       } else if (searchTerm === '') {
         isFieldDirty = false;
       }
@@ -79,16 +86,15 @@ const withSearchData = (WrappedComponent) => {
     }
 
     handleSuggestionClick = (searchTerm) => {
+      const { updateSuggestions } = this.props;
+      const { searchData } = this.state;
+      const suggestions = this.getSuggestions(searchTerm, searchData);
+      updateSuggestions(suggestions);
       this.setState({ searchTerm });
     }
 
     handleInputFocus = (isFocused) => {
       this.setState({ isFocused });
-    }
-
-    matchSearchTerm = (searchTerm, primaryText) => {
-      const primaryTextLower = primaryText.toLowerCase();
-      return primaryTextLower.startsWith(searchTerm.toLowerCase());
     }
 
     render() {
