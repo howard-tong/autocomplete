@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { suggestionShape } from '../utils/types';
 
 const propTypes = {
+  isFocused: PropTypes.bool.isRequired,
   feedbackMessage: PropTypes.string,
   searchTerm: PropTypes.string.isRequired,
   suggestions: PropTypes.arrayOf(suggestionShape),
@@ -11,25 +12,38 @@ const propTypes = {
     PropTypes.shape({}),
     PropTypes.func,
   ]),
+  onBlur: PropTypes.func.isRequired,
+  onFocus: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
+  onSuggestionClick: PropTypes.func,
 };
 
 const defaultProps = {
   feedbackMessage: '',
   suggestions: [],
   inputRef: () => {},
+  onSuggestionClick: () => {},
 };
 
 const Autocomplete = ({
+  isFocused,
   feedbackMessage,
   searchTerm,
   suggestions,
   inputRef,
+  onBlur,
+  onFocus,
   onChange,
+  onSuggestionClick,
 }) => {
   const renderSuggestions = () => (
     suggestions.map((suggestion, index) => (
-      <div key={index.toString()} className="autocomplete-suggestion-row">
+      <div
+        key={index.toString()}
+        className="autocomplete-suggestion-row"
+        onMouseDown={() => onSuggestionClick(suggestion.primaryText)}
+        role="presentation"
+      >
         <span className="autocomplete-primary-text">
           { suggestion.primaryText }
         </span>
@@ -44,6 +58,7 @@ const Autocomplete = ({
       </div>
     ))
   );
+  const showSuggestions = suggestions.length !== 0 && isFocused;
   return (
     <div id="autocomplete">
       <input
@@ -52,10 +67,12 @@ const Autocomplete = ({
         ref={inputRef}
         value={searchTerm}
         onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
       />
       <div className="autocomplete-suggestions-section">
         {
-          suggestions.length !== 0
+          showSuggestions
             ? (
               <div className="autocomplete-suggestions">
                 { renderSuggestions() }

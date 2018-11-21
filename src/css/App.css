@@ -44,6 +44,10 @@
   border-bottom: 1px solid #CCC;
 }
 
+.autocomplete-suggestion-row:hover {
+  background-color: lightblue;
+}
+
 .search-area {
   width: 100%;
   display: flex;

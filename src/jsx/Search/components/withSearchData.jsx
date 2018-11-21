@@ -29,6 +29,7 @@ const withSearchData = (WrappedComponent) => {
           primaryText: '',
           secondaryText: '',
         },
+        isFocused: true,
         isFieldDirty: false,
       };
 
@@ -77,22 +78,34 @@ const withSearchData = (WrappedComponent) => {
       this.setState({ searchTerm, isFieldDirty });
     }
 
+    handleSuggestionClick = (searchTerm) => {
+      this.setState({ searchTerm });
+    }
+
+    handleInputFocus = (isFocused) => {
+      this.setState({ isFocused });
+    }
+
     matchSearchTerm = (searchTerm, primaryText) => {
       const primaryTextLower = primaryText.toLowerCase();
-      return primaryTextLower.includes(searchTerm.toLowerCase());
+      return primaryTextLower.startsWith(searchTerm.toLowerCase());
     }
 
     render() {
-      const { searchTerm } = this.state;
+      const { searchTerm, isFocused } = this.state;
       const { suggestions } = this.props;
       const message = this.getFeedbackMessage(suggestions);
       return (
         <WrappedComponent
+          isFocused={isFocused}
           searchTerm={searchTerm}
           suggestions={suggestions}
           feedbackMessage={message}
           inputRef={this.inputRef}
+          onBlur={() => this.handleInputFocus(false)}
+          onFocus={() => this.handleInputFocus(true)}
           onChange={this.handleInputChange}
+          onSuggestionClick={this.handleSuggestionClick}
         />
       );
     }
